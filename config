@@ -1,0 +1,19 @@
+## ~/.ssh/config ##
+#Host Bastion
+
+#  HostName 45.114.122.42
+#  User ubuntu
+#  IdentityFile home/.ssh/cn_key
+#  ProxyCommand ssh A@10.6..0.95 -W %h:%p
+#  ControlPath ~/.ssh/cn_key                 
+#  ControlMaster auto
+
+
+Host Bastion
+	HostName 45.114.122.42
+	#HostName server.cyberciti.biz
+	User ubuntu
+#	IdentityFile home/.ssh/cn_key
+	IdentityFile ~/.ssh/cn_key	
+#       Port 4242
+
