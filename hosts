@@ -7,7 +7,18 @@
 #   - Groups of hosts are delimited by [header] elements
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
+[haproxy]
+devhaproxy
 
+[servers]
+devA
+devB
+devC
+
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=< ~/.ssh/cn_key
+ansible_python_interpreter=/usr/bin/python3
 # Ex 1: Ungrouped hosts, specify before any group headers.
 
 #green.example.com
@@ -41,16 +52,3 @@
 # leading 0s:
 
 #db-[99:101]-node.example.com
-[haproxy]
-devhaproxy
-
-[servers]
-devA
-devB
-devC
-
-[all:vars]
-ansible_user=ubuntu
-ansible_ssh_private_key_file=< ~/.ssh/cn_key
-
-
