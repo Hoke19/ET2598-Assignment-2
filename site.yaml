@@ -1,0 +1,48 @@
+---
+
+- name: Installing nginx and put index.php
+
+
+  hosts: webservers
+
+  remote_user: ubuntu
+
+  become: yes
+
+  tasks:
+    - name: Upgrading all apt packages on webservers group
+      become: true	
+      apt: 
+        upgrade: dist 
+        force_apt_get: yes
+
+    - name: installing nginx on webservers group
+      become: true
+      apt:
+        name: nginx
+        state: latest
+ 
+    - name: installing php7.4-fpm on webservers group
+      become: true
+      apt: 
+        name: php7.4-fpm
+        state: present
+ 
+    - name: transfering index.php file to webservers group
+      copy:
+        src: /etc/ansible/index.php
+        dest: /var/www/html/index.php
+ 
+ #   - name: sites-enabled
+ 
+ #   - name: sites-available
+
+    - name: nginx configuration file 
+      copy: 
+        src: /etc/ansible/nginx.conf 
+        dest: /etc/nginx/nginx.conf
+
+      notify:
+        -restart php7.4-fpm
+        -reload nginx        
+
