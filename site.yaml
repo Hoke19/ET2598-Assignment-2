@@ -22,8 +22,8 @@
     - name: installing php7.4-fpm on webservers group
       become: true
       apt: 
-        name: php7.4-fpm
-        state: present
+        name: ['php7.4-fpm' , 'php']
+        state: latest
  
     - name: transfering index.php file to webservers group
       copy:
@@ -33,22 +33,23 @@
     - name: nginx configuration file 
       copy: 
         src: nginx.conf 
-        dest: /etc/nginx/nginx.conf
+        dest: /etc/nginx/sites-available/default
 
-      notify:
-        -restart php7.4-fpm
-        -reload nginx        
+     - name: restart nginx
+       service:
+         name: nginx
+         state: restarted        
 
 - hosts:  haproxy
   become: true 
         
   tasks:
-    - name: Installing HAproxy
+    - name: Installing Haproxy
       apt: 
         name: haproxy 
         state:  present
     
-    - name: Transfering HAproxy Config file 
+    - name: Transfering haproxy.cfg 
       template:
         src:  haproxy.cfg
         dest: /etc/haproxy/haproxy.cfg
