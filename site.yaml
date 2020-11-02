@@ -40,7 +40,9 @@
     - name: restart nginx
       service:
         name: nginx
-        state: restarted        
+        state: restarted
+
+    - debug: var=ansible_all_ipv4_addresses        
 
 - name: Installing Haproxy load balancer  
   
