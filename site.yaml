@@ -17,11 +17,12 @@
       become: true
       apt:
         name: nginx
-        state: latest
+        state: present
  
     - name: installing php7.4-fpm on webservers group
       become: true
-      apt: 
+      apt:
+        update_cache: yes
         name: ['php7.4-fpm' , 'php']
         state: latest
  
@@ -34,13 +35,16 @@
       copy: 
         src: nginx.conf 
         dest: /etc/nginx/sites-available/default
+    
+        
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted        
 
-     - name: restart nginx
-       service:
-         name: nginx
-         state: restarted        
-
-- hosts:  haproxy
+- name: Installing Haproxy load balancer  
+  
+  hosts:  haproxy
   become: true 
         
   tasks:
