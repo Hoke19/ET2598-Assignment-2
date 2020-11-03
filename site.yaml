@@ -41,26 +41,31 @@
       service:
         name: nginx
         state: restarted
+        
+- name: Gathering fact
+  hosts: webservers
+  tasks:
+    - debug: var=ansible_all_ipv4_addresses
+          
 
-    - debug: var=ansible_all_ipv4_addresses        
-
-- name: Installing Haproxy load balancer  
+- name: Installing Haproxy 
   
   hosts:  haproxy
+  remote_user: ubuntu
   become: true 
         
   tasks:
     - name: Installing Haproxy
       apt: 
         name: haproxy 
-        state:  present
+        state:  latest
     
     - name: Transfering haproxy.cfg 
       template:
         src:  haproxy.cfg
         dest: /etc/haproxy/haproxy.cfg
         
-    - name: Running the HAproxy
+    - name: Reseting the HAproxy
       service:  
         name: haproxy
-        state:  restarted
+        state: restarted
